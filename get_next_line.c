@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buhankalinux <buhankalinux@student.42.f    +#+  +:+       +#+        */
+/*   By: tmalyshi <tmalyshi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 09:27:16 by buhankalinu       #+#    #+#             */
-/*   Updated: 2026/09/11 11:33:24 by buhankalinu      ###   ########.fr       */
+/*   Updated: 2026/09/12 16:43:46 by tmalyshi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
 #include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#define BUFFER_SIZE 42
 
 char *ft_strchr(const char *s, int c)
 {
@@ -66,32 +64,32 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 //printf("%s\n", dst);
 	return (l);
 }
+char *get_stash(int fd, char *stash)
+{
+    char buffer[BUFFER_SIZE + 1];
+    ssize_t len;
+    int i;
 
- //ssize_t read(int fd, void *buf, size_t nbyte);
+    i = 0;
+    len = read(fd, buffer, BUFFER_SIZE);
+    if (len <= 0)
+        return (NULL);
+    buffer[len] = '\0'; 
+    stash = malloc(len + 1);
+    ft_strlcpy(stash, buffer, len);
+    return(stash);
+}
+//ssize_t read(int fd, void *buf, size_t nbyte);
 char *get_next_line(int fd)
 {
     static char *stash;
-    char *line;
-    void *buffer;
-    int i;
-    ssize_t len;
-    int n;
-
-    n = 10;
-    while (*buffer)
-    {
-        len = read(fd, buffer, BUFFER_SIZE);
-        if (stash && buffer)
-            *stash++ =(char ) *buffer++;
-    }
-    while (i < len)
-    {
-        if (stash[i] != "\n")
-            line = ft_strlcpy(line, stash, len);
-        stash = ft_strchr(stash, '\n');
-    }
-    return(line);
+    //char *line;
+    
+    stash = get_stash(fd, stash);
+    if 
+    //return(line);
 }
+
 int main(int argc, char *argv[])
 {
     int fd;
@@ -110,7 +108,6 @@ int main(int argc, char *argv[])
         line = get_next_line(fd);
         printf("%s", line); 
     }
- 
     else
     {
         perror("open");
