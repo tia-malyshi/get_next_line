@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmalyshi <tmalyshi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: buhankalinux <buhankalinux@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/10 11:12:37 by buhankalinu       #+#    #+#             */
-/*   Updated: 2026/09/12 16:14:19 by tmalyshi         ###   ########.fr       */
+/*   Updated: 2026/09/13 15:04:45 by buhankalinu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,16 @@
 
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdlib.h>
 
+typedef struct s_list
+{
+    char           *stash;
+    int                fd;
+    int               stash_len;
+    struct s_list   *next;
+}               t_list; 
 
-
-
+char *get_next_line(int fd);
 
 # endif
