@@ -3,67 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buhankalinux <buhankalinux@student.42.f    +#+  +:+       +#+        */
+/*   By: tmalyshi <tmalyshi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 09:27:16 by buhankalinu       #+#    #+#             */
-/*   Updated: 2026/09/13 22:09:38 by buhankalinu      ###   ########.fr       */
+/*   Updated: 2026/09/14 20:25:51 by tmalyshi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-char *ft_strchr(const char *s, int c)
+char *extract_line(t_list *data)
 {
-    char ch;
-    int i;
-
-    i = 0;
-    ch =(char )c;
-    while (1)
-    {
-        if(s[i] == ch)
-            return((char *)&s[i]);
-        if (s[i] == '\0')
-            break;
-        i++;
-    }
-    
-    return(NULL);
-}
-size_t	ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	l;
-    char *s;
+    char *line;
     size_t i;
-
-    s = (char *)src;
-
-	l = ft_strlen(s);
+    size_t j;
 
     i = 0;
-    if (size < 1)
-        return(l);
-    while ( s[i] && i < size - 1)
-    {
-        dst[i] = s[i];
+    j = 0;
+    if(!data || !data->stash)
+        return (NULL);
+    while (data->stash[i] && data->stash[i] != '\n')
         i++;
-    }
-    dst[i] = 0;
- 
-//printf("%s\n", dst);
-	return (l);
+    if (data->stash[i] == '\n')
+        i++;
+    line = malloc(i + 1);
+    if (!line)
+        return (NULL);
+    ft_strlcpy(line, data->stash, i + 1);
+    data->stash_len -= i;
+    while (data->stash[i] != '\0')
+        data->stash[j++] = data->stash[i++];
+    data->stash[j] = '\0';
+    return(line);
 }
+
 char	*stash_join(t_list *data, char *buffer, size_t len)
 {
 	char	*new_stash;
@@ -96,7 +70,7 @@ char *get_stash(int fd, t_list *data)
     char buffer[BUFFER_SIZE + 1];
     ssize_t len;
     
-    while (!ft_strchr(data->stash, '\n'))
+    while (!data->stash || !ft_strchr(data->stash, '\n'))
     {
         len = read(fd, buffer, BUFFER_SIZE);
         if (len < 0)
@@ -107,29 +81,14 @@ char *get_stash(int fd, t_list *data)
         data->stash = stash_join(data, buffer, (size_t) len);
         if(!data->stash)
             return(NULL);
-    } 
+    }
     return(data->stash);
 }
-void deallocate(t_list **data)
-{
-    t_list  *temp;
 
-    if (!(*data))
-        return ;
-    while( (*data)->next != NULL)
-    {
-        temp = (*data)->next;
-        free((*data)->stash);
-        free(data);
-        *data = temp;
-    }
-    free(*data);
-}
-//ssize_t read(int fd, void *buf, size_t nbyte);
 char *get_next_line(int fd)
 {
     static t_list *data;
-    //char    *line;
+    char    *line;
     
     if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -139,14 +98,21 @@ char *get_next_line(int fd)
         if (!data)
             return (NULL);
         data->stash = NULL;
-		data->stash_len = 0;
-		data->next = NULL;
+	    data->stash_len = 0;
+	    data->next = NULL;
     }
-    data->stash = get_stash( fd, data);
-    if (!(get_stash(fd, data)))
+    if (!data->stash || !ft_strchr(data->stash, '\n'))
+        data->stash = get_stash( fd, data);
+    if (!data->stash || data->stash_len == 0)
         deallocate(&data); 
-    printf("%s", data->stash);
-    return(NULL);
+    line = extract_line(data);
+    while (line)
+    {
+        printf("%s", line);
+        free(line);
+        line = get_next_line(fd);
+    }
+    return(line);
 }
 
 int main(int argc, char *argv[])
@@ -162,6 +128,8 @@ int main(int argc, char *argv[])
         return (1);
     }
     fd = open(argv[1], O_RDONLY);
+    printf("argv[1] = [%s]\n", argv[1]);
+    printf("fd = %d\n", fd);
     if (fd >= 0)
     {
         line = get_next_line(fd);
