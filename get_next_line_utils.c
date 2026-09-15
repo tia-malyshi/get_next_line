@@ -6,7 +6,7 @@
 /*   By: tmalyshi <tmalyshi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/14 19:13:24 by tmalyshi          #+#    #+#             */
-/*   Updated: 2026/09/15 19:02:41 by tmalyshi         ###   ########.fr       */
+/*   Updated: 2026/09/15 19:43:03 by tmalyshi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,16 @@ void deallocate(t_list **data)
         *data = temp;
     }
     free(*data);
+}
+
+void list_init(t_list **data)
+{
+
+    (*data) = malloc(sizeof(t_list));
+    if (!data)
+        return ;
+    (*data)->stash = NULL;
+    (*data)->stash_len = 0;
+    (*data)->next = NULL;
 }
 

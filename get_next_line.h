@@ -6,7 +6,7 @@
 /*   By: tmalyshi <tmalyshi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/10 11:12:37 by buhankalinu       #+#    #+#             */
-/*   Updated: 2026/09/15 18:39:42 by tmalyshi         ###   ########.fr       */
+/*   Updated: 2026/09/15 19:43:42 by tmalyshi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ char *ft_strchr(const char *s, int c);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlen(const char *s);
 void deallocate(t_list **data);
+void list_init(t_list **data);
 
 # endif
