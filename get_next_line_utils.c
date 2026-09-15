@@ -6,11 +6,12 @@
 /*   By: tmalyshi <tmalyshi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/14 19:13:24 by tmalyshi          #+#    #+#             */
-/*   Updated: 2026/09/14 19:44:55 by tmalyshi         ###   ########.fr       */
+/*   Updated: 2026/09/15 19:02:41 by tmalyshi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
 
 char *ft_strchr(const char *s, int c)
 {
@@ -78,3 +79,4 @@ void deallocate(t_list **data)
     }
     free(*data);
 }
+
