@@ -6,7 +6,7 @@
 /*   By: tmalyshi <tmalyshi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/14 19:13:24 by tmalyshi          #+#    #+#             */
-/*   Updated: 2026/09/15 19:43:03 by tmalyshi         ###   ########.fr       */
+/*   Updated: 2026/09/16 16:38:50 by tmalyshi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char *ft_strchr(const char *s, int c)
     char ch;
     int i;
 
+    if (!s)
+        return(NULL);
     i = 0;
     ch =(char )c;
     while (1)
@@ -28,7 +30,6 @@ char *ft_strchr(const char *s, int c)
             break;
         i++;
     }
-    
     return(NULL);
 }
 

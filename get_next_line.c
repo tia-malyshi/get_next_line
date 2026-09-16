@@ -6,12 +6,11 @@
 /*   By: tmalyshi <tmalyshi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 09:27:16 by buhankalinu       #+#    #+#             */
-/*   Updated: 2026/09/15 20:00:52 by tmalyshi         ###   ########.fr       */
+/*   Updated: 2026/09/16 17:01:59 by tmalyshi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-// #include <stdio.h>
 
 char *extract_line(t_list *data)
 {
@@ -35,11 +34,6 @@ char *extract_line(t_list *data)
     while (data->stash[i] != '\0')
         data->stash[j++] = data->stash[i++];
     data->stash[j] = '\0';
-    // if (data->stash_len == 0)
-    // {
-    //     free(data->stash);
-    //     data->stash = NULL;
-    // }
     return(line);
 }
 
@@ -100,7 +94,7 @@ char *get_next_line(int fd)
     static t_list *data;
     char    *line;
     
-    if (BUFFER_SIZE <= 0)
+    if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
     if (!data)
         list_init(&data);
@@ -117,7 +111,6 @@ char *get_next_line(int fd)
         free(data->stash);
         data->stash = NULL;
     }
-    // printf("%s", line);
     return(line);
 }
 

@@ -6,7 +6,7 @@
 /*   By: tmalyshi <tmalyshi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/10 11:12:37 by buhankalinu       #+#    #+#             */
-/*   Updated: 2026/09/15 19:43:42 by tmalyshi         ###   ########.fr       */
+/*   Updated: 2026/09/16 16:52:41 by tmalyshi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_list
 {
     char           *stash;
     int                fd;
-    size_t               stash_len;
+    size_t       stash_len;
     struct s_list   *next;
 }               t_list; 
 
