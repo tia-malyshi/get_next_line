@@ -70,21 +70,20 @@ void deallocate(t_list **data)
 
     if (!(*data))
         return ;
-    while( (*data)->next != NULL)
+    while (*data != NULL)
     {
         temp = (*data)->next;
         free((*data)->stash);
-        free(data);
+        free(*data);
         *data = temp;
     }
-    free(*data);
 }
 
 void list_init(t_list **data)
 {
 
     (*data) = malloc(sizeof(t_list));
-    if (!data)
+    if (!*data)
         return ;
     (*data)->stash = NULL;
     (*data)->stash_len = 0;
